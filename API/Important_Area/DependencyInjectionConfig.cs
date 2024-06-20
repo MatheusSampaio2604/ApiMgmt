@@ -11,13 +11,14 @@ namespace API.Important_Area
     {
         public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
-            services.AddTransient<InterEmailService, GeneralEmailService>();
 
             services.AddHttpClient<InterRequestApi, GeneralRequestApi>();
 
-            services.AddSingleton(typeof(InterRepository<>), typeof(GeneralRepository<>));
-            services.AddSingleton(typeof(InterApplication<>), typeof(GeneralApplication<>));
+            //services.AddSingleton(typeof(InterRepository<>), typeof(GeneralRepository<>));
+            //services.AddSingleton(typeof(InterApplication<>), typeof(GeneralApplication<>));
             
+            services.AddScoped<InterUserService, UserService>();
+            services.AddTransient<InterEmailService, GeneralEmailService>();
             
             //services.AddScoped<Interface_Repo_Compra, Repository_Compra>();
 

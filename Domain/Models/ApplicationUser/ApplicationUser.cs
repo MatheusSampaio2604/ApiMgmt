@@ -2,7 +2,7 @@
 
 namespace Domain.Models.ApplicationUser
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<int>
     {
         public required string Name { get; set; }
 

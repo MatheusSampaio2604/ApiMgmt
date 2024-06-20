@@ -1,6 +1,5 @@
 ﻿using Application.Services;
 using Application.Services.Interfaces;
-using Asp.Versioning;
 using Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,8 +45,8 @@ namespace API.Controllers
                     return BadRequest("Invalid email address");
 
                 var callbackUrl = Url.Action(
-                    "ResetPassword",
-                    "Account",
+                    "GetListPlc",
+                    "Plc",
                     new { token, email },
                     protocol: HttpContext.Request.Scheme);
 

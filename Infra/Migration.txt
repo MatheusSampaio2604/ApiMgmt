@@ -1,0 +1,8 @@
+﻿install:
+dotnet tool install --global dotnet-ef
+
+create:
+dotnet ef migrations add Migration2 --project infra --startup-project Api --context DataContext
+
+update:
+dotnet ef database update --project infra --startup-project Api --context DataContext

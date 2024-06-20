@@ -23,7 +23,8 @@ namespace Application.Services
         {
             var user = new ApplicationUser
             {
-                UserName = createUser.Email,
+                UserName = createUser.Name,
+                NormalizedUserName = createUser.Name.ToUpper(),
                 Email = createUser.Email,
                 NormalizedEmail = createUser.Email.ToUpper(),
                 Name = createUser.Name,

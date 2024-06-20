@@ -1,17 +1,18 @@
 ﻿using Domain.Models.ApplicationUser;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Infra.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class DataContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {        }
 
-        //public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,7 +25,7 @@ namespace Infra.Context
             }
 
             // Aplicar configurações do mapeamento
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly, x => x.Namespace == "Application.AutoMapperAll.Mapping");
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly, x => x.Namespace == "Application.AutoMapperAll.Mapping");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

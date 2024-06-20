@@ -39,7 +39,15 @@ namespace Application.Services
             };
             mailMessage.To.Add(to);
 
-            await smtpClient.SendMailAsync(mailMessage);
+            try
+            {
+                await smtpClient.SendMailAsync(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the error
+                throw new Exception("Failed to send email", ex);
+            }
         }
     }
 }

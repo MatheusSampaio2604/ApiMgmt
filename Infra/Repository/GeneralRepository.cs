@@ -9,12 +9,12 @@ namespace Infra.Repository
     public class GeneralRepository<T> : InterRepository<T> where T : class
     {
         #region Private Element's
-        private readonly ApplicationDbContext _context;
+        private readonly DataContext _context;
         private readonly DbSet<T> _dbSet;
         #endregion
 
         #region Constructor
-        public GeneralRepository(ApplicationDbContext dataContext)
+        public GeneralRepository(DataContext dataContext)
         {
             _context = dataContext;
             _dbSet = _context.Set<T>();
