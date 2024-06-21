@@ -19,13 +19,13 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RequestCreateUser model)
+        public async Task<IActionResult> Register(RequestCreateUser model)
         {
             try
             {
                 var result = await _userService.CreateUserAsync(model);
                 if (result.Succeeded)
-                    return Ok("User created successfully");
+                    return Ok("Success");
 
                 return BadRequest(result.Errors);
             }
@@ -45,8 +45,8 @@ namespace API.Controllers
                     return BadRequest("Invalid email address");
 
                 var callbackUrl = Url.Action(
-                    "GetListPlc",
-                    "Plc",
+                    "ResetPassword",
+                    "User",
                     new { token, email },
                     protocol: HttpContext.Request.Scheme);
 
@@ -81,6 +81,25 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
 
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] RequestLogin model)
+        {
+            try
+            {
+                var result = await _userService.LoginAsync(model.UserName, model.Password);
+                if (result.Succeeded)
+                {
+                    return Ok(new { Succeeded = true, Token = result.Token });
+                }
+
+                return BadRequest(new { Errors = result.Errors });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

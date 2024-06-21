@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PlcController : ControllerBase
     {

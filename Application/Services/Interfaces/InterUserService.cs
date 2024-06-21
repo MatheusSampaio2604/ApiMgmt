@@ -13,5 +13,6 @@ namespace Application.Services.Interfaces
         Task<IdentityResult> CreateUserAsync(RequestCreateUser createUser);
         Task<string> GeneratePasswordResetTokenAsync(string email);
         Task<IdentityResult> ResetPasswordAsync(string email, string token, string newPassword);
+        Task<LoginResult> LoginAsync(string email, string password);
     }
 }
