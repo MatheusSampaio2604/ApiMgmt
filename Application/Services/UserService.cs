@@ -69,7 +69,7 @@ namespace Application.Services
             if (result.Succeeded)
             {
                 string token = GenerateJwtToken(user);
-                return new LoginResult { Succeeded = true, Token = token };
+                return new LoginResult { Succeeded = true, Token = token, Name = user.Name };
             }
             else
                 return new LoginResult { Succeeded = false, Errors = new[] { "Invalid email or password" } };
