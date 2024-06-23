@@ -45,8 +45,16 @@ namespace Application.Services
             var result = await _userManager.CreateAsync(user, createUser.Password);
 
             if (result.Succeeded)
-                await _userManager.AddToRoleAsync(user, "User");
+            {
+                ApplicationUser userData = await _userManager.FindByEmailAsync(createUser.Email);
+                await _userManager.AddToRoleAsync(userData, "User");
 
+                var claims = new List<Claim>
+                { new ("Permission", "View") };
+
+                foreach (var claim in claims)
+                    await _userManager.AddClaimAsync(userData, claim);
+            }
             return result;
         }
 
@@ -80,14 +88,16 @@ namespace Application.Services
             {
                 var roles = await _userManager.GetRolesAsync(user);
 
-                string token = GenerateJwtToken(user, roles);
+                var claims = await _userManager.GetClaimsAsync(user);
+
+                string token = GenerateJwtToken(user, roles, claims);
                 return new LoginResult { Succeeded = true, Token = token, Name = user.Name };
             }
             else
                 return new LoginResult { Succeeded = false, Errors = new[] { "Invalid email or password" } };
         }
 
-        private string GenerateJwtToken(ApplicationUser user, IList<string> roles)
+        private string GenerateJwtToken(ApplicationUser user, IList<string> rolesUser, IList<Claim> claimsUser)
         {
 
             var claims = new List<Claim>
@@ -95,8 +105,12 @@ namespace Application.Services
                 new (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new (ClaimTypes.Name, user.UserName),
                 new (ClaimTypes.Email, user.Email),
-                new (ClaimTypes.Role, string.Join(",", roles)),
+                new (ClaimTypes.Role, string.Join(",", rolesUser)),
+
             };
+
+            claims.AddRange(claimsUser);
+
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("&secret-key&4002-8922$FromJanusAutomation$"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -108,6 +122,7 @@ namespace Application.Services
                 claims: claims,
                 expires: expires,
                 signingCredentials: creds
+
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

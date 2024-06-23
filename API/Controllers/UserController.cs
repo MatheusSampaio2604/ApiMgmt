@@ -25,7 +25,7 @@ namespace API.Controllers
             {
                 var result = await _userService.CreateUserAsync(model);
                 if (result.Succeeded)
-                    return Ok("Success");
+                    return Ok(result);
 
                 return BadRequest(result.Errors);
             }
@@ -91,7 +91,7 @@ namespace API.Controllers
                 var result = await _userService.LoginAsync(model.UserName, model.Password);
                 if (result.Succeeded)
                 {
-                    return Ok(new { Succeeded = true, Token = result.Token });
+                    return Ok(new { Succeeded = true, Token = result.Token, Name = result.Name });
                 }
 
                 return BadRequest(new { Errors = result.Errors });
