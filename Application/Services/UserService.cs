@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -27,9 +28,12 @@ namespace Application.Services
 
         public async Task<IdentityResult> CreateUserAsync(RequestCreateUser createUser)
         {
-            var user = new ApplicationUser
+            createUser.Name = createUser.Name.TrimEnd().TrimStart();
+            createUser.Email = createUser.Email.TrimEnd().TrimStart();
+
+            ApplicationUser user = new()
             {
-                UserName = createUser.Name,
+                UserName = createUser.Name.Replace(" ", "_"),
                 NormalizedUserName = createUser.Name.ToUpper(),
                 Email = createUser.Email,
                 NormalizedEmail = createUser.Email.ToUpper(),
@@ -37,7 +41,13 @@ namespace Application.Services
                 DateRegister = DateTime.UtcNow,
                 EmailConfirmed = true,
             };
-            return await _userManager.CreateAsync(user, createUser.Password);
+
+            var result = await _userManager.CreateAsync(user, createUser.Password);
+
+            if (result.Succeeded)
+                await _userManager.AddToRoleAsync(user, "User");
+
+            return result;
         }
 
         public async Task<string> GeneratePasswordResetTokenAsync(string email)
@@ -68,20 +78,24 @@ namespace Application.Services
 
             if (result.Succeeded)
             {
-                string token = GenerateJwtToken(user);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                string token = GenerateJwtToken(user, roles);
                 return new LoginResult { Succeeded = true, Token = token, Name = user.Name };
             }
             else
                 return new LoginResult { Succeeded = false, Errors = new[] { "Invalid email or password" } };
         }
 
-        private string GenerateJwtToken(ApplicationUser user)
+        private string GenerateJwtToken(ApplicationUser user, IList<string> roles)
         {
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName.ToString()),
+                new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new (ClaimTypes.Name, user.UserName),
+                new (ClaimTypes.Email, user.Email),
+                new (ClaimTypes.Role, string.Join(",", roles)),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("&secret-key&4002-8922$FromJanusAutomation$"));
@@ -89,8 +103,8 @@ namespace Application.Services
             var expires = DateTime.UtcNow.AddHours(8);
 
             var token = new JwtSecurityToken(
-                issuer: "your-website.com",
-                audience: "your-website.com",
+            //    issuer: "your-website.com",
+            //    audience: "your-website.com",
                 claims: claims,
                 expires: expires,
                 signingCredentials: creds
