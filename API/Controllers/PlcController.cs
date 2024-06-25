@@ -1,4 +1,5 @@
 ﻿using API.Important_Area;
+using Application.Services.Interfaces;
 using Application.ViewModels.ApiPlc;
 using Infra.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,28 +13,98 @@ namespace API.Controllers
     [ApiController]
     public class PlcController : ControllerBase
     {
-        private readonly InterRequestApi _interRequestApi;
-        ApiRoutes routes = new ApiRoutes();
+        private readonly InterPlcService _interPlcService;
 
-        public PlcController(InterRequestApi interRequestApi)
+        
+        public PlcController(InterPlcService interPlcService)
         {
-            _interRequestApi = interRequestApi;
+            _interPlcService = interPlcService;
         }
 
         [HttpGet("getValueFromPlc")]
         public async Task<IActionResult> GetValueFromPlc(string address)
         {
-            var itens = await _interRequestApi.GetAsync<RequestPlc>($"{routes.RouteLinkPLC + routes.RoutePortPLC}/Plc/read/{address}");
-            return Ok(itens);
+            try
+            {
+                var itens = await _interPlcService.ReadPlc(address);
+                return Ok(itens);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("getListPlc")]
         public async Task<IActionResult> GetListPlc()
         {
-            var itens = await _interRequestApi.GetAsync<RequestPlc>($"{routes.RouteLinkPLC + routes.RoutePortPLC}/Plc/GetListPlc");
-            return Ok(itens);
+            try
+            {
+                var itens = await _interPlcService.GetListPlcs();
+                return Ok(itens);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
-        
+        [HttpPost("SetValueToPlc")]
+        public async Task<IActionResult> SetValueToPlc(List<RequestPlc> plc)
+        {
+            try
+            {
+                var itens = await _interPlcService.WritePlc(plc);
+                return Ok(itens);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("GetSettingsPlc")]
+        public async Task<IActionResult> GetSettingsPlc()
+        {
+            try
+            {
+                PlcSettings settings = await _interPlcService.GetSettingsPlc();
+                return Ok(settings);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("UpdateSettingsPlc")]
+        public IActionResult UpdateSettingsPlc(PlcSettings plcSettings)
+        {
+            try
+            {
+                _interPlcService.UpdateSettingsPlc(plcSettings);
+                return Ok(plcSettings);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("TestConnectionPlc")]
+        public async Task<IActionResult> TestConnectionPlc()
+        {
+            try
+            {
+                bool settings = await _interPlcService.TestConnectionPlc();
+                return Ok(settings);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
     }
 }

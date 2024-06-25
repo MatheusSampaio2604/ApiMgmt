@@ -18,6 +18,7 @@ namespace API.Important_Area
             //services.AddSingleton(typeof(InterApplication<>), typeof(GeneralApplication<>));
             
             services.AddScoped<InterUserService, UserService>();
+            services.AddScoped<InterPlcService, PlcService>();
             services.AddTransient<InterEmailService, GeneralEmailService>();
             
             //services.AddScoped<Interface_Repo_Compra, Repository_Compra>();
