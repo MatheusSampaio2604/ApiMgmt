@@ -2,8 +2,10 @@
 {
     public class ApiRoutes
     {
-        public static string RouteLinkPLC = "https://localhost";
-        public static string RoutePortPLC = ":7155";
+        public static string RouteLinkPLC = "http://localhost";
+
+        public static string RoutePortPLC = ":5000";
+
         public static string RouteApiPLC = "/api";
     }
 }
