@@ -31,7 +31,7 @@ namespace API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return Ok(new RequestPlc());
             }
         }
 
@@ -43,9 +43,9 @@ namespace API.Controllers
                 var itens = await _interPlcService.WritePlc(plc);
                 return Ok(itens);
             }
-            catch (Exception e)
+            catch
             {
-                return BadRequest(e.Message);
+                return Ok(false);
             }
         }
 
@@ -64,7 +64,7 @@ namespace API.Controllers
         }
 
         [HttpPost("AddTagInList")]
-        public async Task<IActionResult> AddTagInList(PlcConfig plc)
+        public async Task<IActionResult> AddTagInList(List<PlcConfig> plc)
         {
             try
             {
@@ -91,7 +91,20 @@ namespace API.Controllers
             }
         }
 
-       
+        [HttpDelete("{id}/DeleteTagInList")]
+        public async Task<IActionResult> DeleteTagInList(int id)
+        {
+            try
+            {
+                var resp = await _interPlcService.DeleteTagInList(id);
+                return Ok(resp);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         [HttpGet("GetSettingsPlc")]
         public async Task<IActionResult> GetSettingsPlc()
@@ -130,9 +143,9 @@ namespace API.Controllers
                 bool settings = await _interPlcService.TestConnectionPlc();
                 return Ok(settings);
             }
-            catch (Exception e)
+            catch
             {
-                return BadRequest(e.Message);
+                return Ok(false);
             }
         }
     }

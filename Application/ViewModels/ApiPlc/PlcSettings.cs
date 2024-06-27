@@ -12,5 +12,6 @@ namespace Application.ViewModels.ApiPlc
         public required string CpuType { get; set; }
         public required short Rack { get; set; }
         public required short Slot { get; set; }
+        public required string Driver { get; set; }
     }
 }

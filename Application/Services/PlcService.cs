@@ -55,14 +55,19 @@ namespace Application.Services
             return await _interRequestApi.GetAsync<bool>($"{routePlc}/Plc/TestConnectionPlc");
         }
 
-        public async Task<bool> AddTagInList(PlcConfig plc)
+        public async Task<bool> AddTagInList(List<PlcConfig> plc)
         {
-            return await _interRequestApi.PostAsync<PlcConfig, bool>($"{routePlc}/plc/SaveInListPlc", plc);
+            return await _interRequestApi.PostAsync<List<PlcConfig>, bool>($"{routePlc}/plc/SaveInListPlc", plc);
         }
 
         public async Task<bool> UpdateTagInList(PlcConfig plc)
         {
             return await _interRequestApi.PutAsync<PlcConfig, bool>($"{routePlc}/plc/{plc.Id}/updateTag", plc);
+        }
+
+        public async Task<bool> DeleteTagInList(int id)
+        {
+            return await _interRequestApi.DeleteAsync<int, bool>($"{routePlc}/plc/{id}/deleteTagList");
         }
     }
 }
