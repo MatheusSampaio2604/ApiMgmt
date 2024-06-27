@@ -36,12 +36,7 @@ namespace Application.Services
 
         public async Task<bool> WritePlc(List<RequestPlc> requestPlc)
         {
-
-            foreach (var request in requestPlc)
-            {
-                await _interRequestApi.PostAsync<RequestPlc, dynamic>($"{routePlc}/Plc/write", request);
-            }
-            return true;
+            return await _interRequestApi.PostAsync<List<RequestPlc>, bool>($"{routePlc}/Plc/write", requestPlc); ;
         }
 
         public async Task<PlcSettings> GetSettingsPlc()
@@ -50,9 +45,9 @@ namespace Application.Services
             return item;
         }
 
-        public void UpdateSettingsPlc(PlcSettings settings)
+        public async Task<bool> UpdateSettingsPlc(PlcSettings settings)
         {
-            _interRequestApi.PostAsync<PlcSettings, dynamic>($"{routePlc}/Plc/write", settings);
+            return await _interRequestApi.PostAsync<PlcSettings, bool>($"{routePlc}/Plc/UpdateSettingsPlc", settings);
         }
 
         public async Task<bool> TestConnectionPlc()
@@ -60,5 +55,14 @@ namespace Application.Services
             return await _interRequestApi.GetAsync<bool>($"{routePlc}/Plc/TestConnectionPlc");
         }
 
+        public async Task<bool> AddTagInList(PlcConfig plc)
+        {
+            return await _interRequestApi.PostAsync<PlcConfig, bool>($"{routePlc}/plc/SaveInListPlc", plc);
+        }
+
+        public async Task<bool> UpdateTagInList(PlcConfig plc)
+        {
+            return await _interRequestApi.PutAsync<PlcConfig, bool>($"{routePlc}/plc/{plc.Id}/updateTag", plc);
+        }
     }
 }

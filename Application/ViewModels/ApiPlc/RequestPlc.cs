@@ -8,8 +8,8 @@ namespace Application.ViewModels.ApiPlc
 {
     public class RequestPlc
     {     
-        public required string AddressPlc { get; set; }
-        public required string Type { get; set; }
-        public object? Value { get; set; }
+        public string? AddressPlc { get; set; }
+        public string? Type { get; set; }
+        public string? Value { get; set; }
     }
 }

@@ -16,10 +16,7 @@ namespace API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.WebHost.ConfigureKestrel((context, options) =>
-            {
-                options.Configure(context.Configuration.GetSection("Kestrel"));
-            });
+            builder.WebHost.UseUrls("http://localhost:5100");
 
 
             // Configure DbContext
@@ -68,8 +65,8 @@ namespace API
 
             //app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-            app.UseAuthentication();
+            //app.UseAuthorization();
+            //app.UseAuthentication();
 
             app.MapControllers();
 
