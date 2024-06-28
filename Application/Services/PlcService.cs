@@ -27,10 +27,11 @@ namespace Application.Services
             return item;
 
         }
-        public async Task<RequestPlc> ReadPlc(string address)
+        public async Task<string> ReadPlc(string address)
         {
-            var item = await _interRequestApi.GetAsync<RequestPlc>($"{routePlc}/Plc/read/{address}");
-            return item;
+            object? item = await _interRequestApi.GetAsync<object>($"{routePlc}/Plc/read/{address}");
+            
+            return item.ToString();
 
         }
 

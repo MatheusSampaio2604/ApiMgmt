@@ -19,6 +19,7 @@ namespace API.Important_Area
             
             //services.AddScoped<InterUserService, UserService>();
             services.AddScoped<InterPlcService, PlcService>();
+            services.AddScoped<InterCameraService, CameraService>();
             services.AddTransient<InterEmailService, GeneralEmailService>();
             
             //services.AddScoped<Interface_Repo_Compra, Repository_Compra>();

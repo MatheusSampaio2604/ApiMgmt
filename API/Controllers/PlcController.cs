@@ -27,11 +27,11 @@ namespace API.Controllers
             try
             {
                 var itens = await _interPlcService.ReadPlc(address);
-                return Ok(itens);
+                return Ok(itens.Replace(",", "."));
             }
             catch (Exception e)
             {
-                return Ok(new RequestPlc());
+                return Ok("");
             }
         }
 
@@ -143,9 +143,9 @@ namespace API.Controllers
                 bool settings = await _interPlcService.TestConnectionPlc();
                 return Ok(settings);
             }
-            catch
+            catch (Exception e)
             {
-                return Ok(false);
+                return BadRequest(e.Message);
             }
         }
     }
