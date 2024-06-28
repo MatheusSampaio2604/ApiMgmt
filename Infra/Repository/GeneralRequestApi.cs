@@ -24,7 +24,8 @@ namespace Infra.Repository
             }
             else
             {
-                throw new HttpRequestException($"Failed to GET data from {url}. Status code: {response.StatusCode}");
+                string responseError = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Failed to GET data from {url}. Status code: {response.StatusCode}. \nMessage: " + responseError);
             }
         }
 

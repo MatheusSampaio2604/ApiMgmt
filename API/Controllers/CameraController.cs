@@ -37,7 +37,6 @@ namespace API.Controllers
         {
             try
             {
-
                 return Ok(await _interCameraService.SetCalibrationCameraAsync(calibrationCamera));
             }
             catch (Exception ex)
