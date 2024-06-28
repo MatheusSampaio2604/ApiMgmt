@@ -1,11 +1,4 @@
-﻿using Application.ViewModels;
-using Application.ViewModels.ApiPlc;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.ViewModels.ApiPlc;
 
 namespace Application.Services.Interfaces
 {

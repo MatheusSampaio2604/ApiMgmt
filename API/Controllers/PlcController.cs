@@ -1,9 +1,6 @@
-﻿using API.Important_Area;
-using Application.Services.Interfaces;
+﻿using Application.Services.Interfaces;
 using Application.ViewModels.ApiPlc;
-using Infra.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

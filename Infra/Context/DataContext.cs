@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Infra.Context
 {
@@ -10,7 +9,7 @@ namespace Infra.Context
     {
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
-        {        }
+        { }
 
         public DbSet<ApplicationUser> Users { get; set; }
 

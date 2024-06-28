@@ -1,12 +1,5 @@
 using API.Important_Area;
 using Application.AutoMapperAll.AutoMapper;
-using Domain.Models.ApplicationUser;
-using Infra.Context;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Security.Claims;
 
 namespace API
 {
@@ -53,9 +46,9 @@ namespace API
 
             var app = builder.Build();
 
-                app.UseSwagger();
-                app.UseSwaggerUI();
-     
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
 
             //using (var scope = app.Services.CreateScope())
             //{

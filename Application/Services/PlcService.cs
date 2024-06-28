@@ -1,12 +1,6 @@
 ﻿using Application.Services.Interfaces;
 using Application.ViewModels.ApiPlc;
-using Azure.Core;
 using Infra.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {
@@ -30,7 +24,7 @@ namespace Application.Services
         public async Task<string> ReadPlc(string address)
         {
             object? item = await _interRequestApi.GetAsync<object>($"{routePlc}/Plc/read/{address}");
-            
+
             return item.ToString();
 
         }

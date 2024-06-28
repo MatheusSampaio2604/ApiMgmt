@@ -1,5 +1,4 @@
-﻿using Application.Services;
-using Application.Services.Interfaces;
+﻿using Application.Services.Interfaces;
 using Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
