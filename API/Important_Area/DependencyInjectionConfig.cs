@@ -11,6 +11,7 @@ namespace API.Important_Area
         {
             services.AddHttpClient<InterRequestApi, GeneralRequestApi>();
 
+            services.AddScoped<InterConfigureOptionsServices, ConfigureOptionsService>();
             services.AddScoped<InterPlcService, PlcService>();
             services.AddScoped<InterCameraService, CameraService>();
             services.AddTransient<InterEmailService, GeneralEmailService>();

@@ -17,6 +17,11 @@ namespace API.Controllers
             _interPlcService = interPlcService;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         [HttpGet("getValueFromPlc/{address}")]
         public async Task<IActionResult> GetValueFromPlc(string address)
         {
@@ -31,13 +36,17 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="plc"></param>
+        /// <returns></returns>
         [HttpPost("SetValueToPlc")]
         public async Task<IActionResult> SetValueToPlc(List<RequestPlc> plc)
         {
             try
             {
-                var itens = await _interPlcService.WritePlc(plc);
-                return Ok(itens);
+                return Ok(await _interPlcService.WritePlc(plc));
             }
             catch
             {
@@ -45,13 +54,16 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getListPlc")]
         public async Task<IActionResult> GetListPlc()
         {
             try
             {
-                var itens = await _interPlcService.GetListPlcs();
-                return Ok(itens);
+                return Ok(await _interPlcService.GetListPlcs());
             }
             catch (Exception e)
             {
@@ -59,13 +71,17 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="plc"></param>
+        /// <returns></returns>
         [HttpPost("AddTagInList")]
         public async Task<IActionResult> AddTagInList(List<PlcConfig> plc)
         {
             try
             {
-                var resp = await _interPlcService.AddTagInList(plc);
-                return Ok(resp);
+                return Ok(await _interPlcService.AddTagInList(plc));
             }
             catch (Exception e)
             {
@@ -73,13 +89,17 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="plc"></param>
+        /// <returns></returns>
         [HttpPost("UpdateTagInList")]
         public async Task<IActionResult> UpdateTagInList(PlcConfig plc)
         {
             try
             {
-                var resp = await _interPlcService.UpdateTagInList(plc);
-                return Ok(resp);
+                return Ok(_interPlcService.UpdateTagInList(plc));
             }
             catch (Exception e)
             {
@@ -87,13 +107,17 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}/DeleteTagInList")]
         public async Task<IActionResult> DeleteTagInList(int id)
         {
             try
             {
-                var resp = await _interPlcService.DeleteTagInList(id);
-                return Ok(resp);
+                return Ok(await _interPlcService.DeleteTagInList(id));
             }
             catch (Exception e)
             {
@@ -101,14 +125,16 @@ namespace API.Controllers
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetSettingsPlc")]
         public async Task<IActionResult> GetSettingsPlc()
         {
             try
             {
-                PlcSettings settings = await _interPlcService.GetSettingsPlc();
-                return Ok(settings);
+                return Ok(await _interPlcService.GetSettingsPlc());
             }
             catch (Exception e)
             {
@@ -116,14 +142,17 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="plcSettings"></param>
+        /// <returns></returns>
         [HttpPost("UpdateSettingsPlc")]
         public async Task<IActionResult> UpdateSettingsPlc(PlcSettings plcSettings)
         {
             try
             {
-                bool resp = await _interPlcService.UpdateSettingsPlc(plcSettings);
-
-                return Ok(resp);
+                return Ok(await _interPlcService.UpdateSettingsPlc(plcSettings));
             }
             catch (Exception e)
             {
@@ -140,13 +169,14 @@ namespace API.Controllers
         {
             try
             {
-                bool settings = await _interPlcService.TestConnectionPlc();
-                return Ok(settings);
+                return Ok(await _interPlcService.TestConnectionPlc());
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+
+
     }
 }
